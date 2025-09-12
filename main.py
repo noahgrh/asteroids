@@ -33,15 +33,26 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
+        
         screen.fill("black")
         updatable.update(dt)
+
         for obj in drawable:
             obj.draw(screen)
+
         pygame.display.flip()
+
         for asteroid in asteroids:
             if asteroid.isCollision(player):
                 print("Game over!")
                 sys.exit()
+        
+        for asteroid in asteroids:
+            for shot in shots:
+                if asteroid.isCollision(shot):
+                    asteroid.kill()
+                    shot.kill()
+
         dt = clock.tick(60) / 1000
     print("Starting Asteroids!")
     print(f"Screen width: {SCREEN_WIDTH}")
